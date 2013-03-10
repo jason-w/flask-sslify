@@ -8,9 +8,10 @@ YEAR_IN_SECS = 31536000
 class SSLify(object):
     """Secures your Flask App."""
 
-    def __init__(self, app, age=YEAR_IN_SECS, subdomains=False, permanent=False):
+    def __init__(self, app, set_hsts_policy=True, age=YEAR_IN_SECS, subdomains=False, permanent=False):
         if app is not None:
             self.app = app
+            self.set_hsts_policy = set_hsts_policy
             self.hsts_age = age
             self.hsts_include_subdomains = subdomains
             self.permanent = permanent
@@ -22,7 +23,9 @@ class SSLify(object):
     def init_app(self, app):
         """Configures the configured Flask app to enforce SSL."""
         app.before_request(self.redirect_to_ssl)
-        app.after_request(self.set_hsts_header)
+        
+        if self.set_hsts_policy:
+        	app.after_request(self.set_hsts_header)
 
     @property
     def hsts_header(self):

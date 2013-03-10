@@ -45,6 +45,10 @@ You can change the duration by passing the ``age`` parameter::
 If you'd like to include subdomains in your HSTS policy, set the ``subdomains`` parameter::
 
     sslify = SSLify(app, subdomains=True)
+    
+If you wish to exclude the HSTS policy::
+
+	sslify = SSLify(app, set_hsts_policy=False)
 
 
 HTTP 301 Redirects
